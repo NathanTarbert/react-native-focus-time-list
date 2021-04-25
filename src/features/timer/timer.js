@@ -11,7 +11,7 @@ import { Timing } from './Timing';
 
 const DEFAULT_TIME = 0.1;
 
-export const Timer = ({ focusSubject, onTimerEnd }) => {
+export const Timer = ({ focusSubject, onTimerEnd, clearSubject }) => {
   useKeepAwake();
 
   const interval = React.useRef(null);
@@ -60,9 +60,6 @@ export const Timer = ({ focusSubject, onTimerEnd }) => {
         <Text style={styles.title}>Focusing on: </Text>
         <Text style={styles.task}>{focusSubject}</Text>
       </View>
-      <View style={styles.buttonWrapper}>
-        <Timing onChangeTime={changeTime} />
-      </View>
       <View style={{ paddingTop: spacing.sm }}>
         <ProgressBar
           progress={progress}
@@ -71,12 +68,19 @@ export const Timer = ({ focusSubject, onTimerEnd }) => {
         />
       </View>
       <View style={styles.buttonWrapper}>
+        <Timing onChangeTime={changeTime} />
+      </View>
+      
+      <View style={styles.buttonWrapper}>
         {istarted ? (
           <RoundedButton title="pause" onPress={() => setIsStarted(false)} />
         ) : (
           <RoundedButton title="start" onPress={() => setIsStarted(true)} />
         )}
       </View>
+      <View style={styles.clearSubject}>
+          <RoundedButton title="-" size={50} onPress={() => clearSubject() } />
+        </View>
     </View>
   );
 };
@@ -106,4 +110,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  clearSubject: {
+    paddingBottom: spacing.lg,
+    paddingLeft: spacing.lg
+  }
 });
