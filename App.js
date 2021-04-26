@@ -5,17 +5,29 @@ import { Timer } from './src/features/timer/Timer';
 import { colors } from './src/utils/colors';
 import { spacing } from './src/utils/sizes';
 
+const STATUS = {
+  COMPLETE: 1,
+  CANCELLED: 2,
+};
+
 export default function App() {
   const [focusSubject, setFocusSubject] = useState(null);
-  const [focusHistory, setFocusHistory] = useState([]);//stores the focus history in an empty array.
-
-  useEffect(() => {
-    if (focusSubject) {
-      setFocusHistory([...focusHistory, focusSubject]);
-    }
-  }, [focusSubject]);
+  const [focusHistory, setFocusHistory] = useState([]); //stores the focus history in an empty array.
 
   console.log(focusHistory);
+
+  // useEffect(() => {//this does not track the subject well enough to tell if the focusSubject was successful so we will use state instead.
+  //   if (focusSubject) {
+  //     setFocusHistory([...focusHistory, focusSubject]);
+  //   }
+  // }, [focusSubject]);
+
+  // console.log(focusHistory);
+
+  const addFocusHistorySubjectWithState = (subject, status) => {
+    // this will track our progress
+    setFocusHistory([...focusHistory, { subject, status }]);
+  };
 
   return (
     <View style={styles.container}>
@@ -23,9 +35,13 @@ export default function App() {
         <Timer
           focusSubject={focusSubject}
           onTimerEnd={() => {
+            addFocusHistorySubjectWithState(focusSubject, STATUS.COMPLETE);
             setFocusSubject(null);
           }}
-          clearSubject={() => setFocusSubject(null)}//clears the focus subject but not the history, there is more to do...
+          clearSubject={() => {
+            addFocusHistorySubjectWithState(focusSubject, STATUS.CANCELLED);
+            setFocusSubject(null);
+          }}
         />
       ) : (
         <Focus addSubject={setFocusSubject} />
