@@ -5,7 +5,7 @@ import { fontSizes, spacing } from '../utils/sizes';
 import { colors } from '../utils/colors';
 
 const minutesToMillis = (min) => min * 1000 * 60;
-const formatTime = (time) => time < 10 ? `0${time}` : time
+const formatTime = (time) => time < 10 ? `0${time}` : time;
 
 export const Countdown = ({minutes = 0.1, isPaused, onProgress, onEnd}) => {
 
@@ -17,14 +17,14 @@ export const Countdown = ({minutes = 0.1, isPaused, onProgress, onEnd}) => {
     setMillis((time) => {
       if(time === 0) {
         clearInterval(interval.current);
-        onEnd()
+        onEnd();
         return time;
       }
       const timeLeft = time - 1000;
       onProgress(timeLeft / minutesToMillis(minutes));
       return timeLeft;
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     setMillis(minutesToMillis(minutes));

@@ -6,7 +6,7 @@ import { colors } from '../../utils/colors';
 import { RoundedButton } from '../../components/RoundedButton';
 
 export const Focus = ({ addSubject }) => {
-  const [subject, setSubject] = useState(null);
+  const [subject, setSubject] = useState(null);//these are the hooks for the focus subject
   return (
     <View style={styles.container}>
       <View style={styles.innerContainer}>
